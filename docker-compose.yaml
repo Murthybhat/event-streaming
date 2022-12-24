@@ -1,0 +1,22 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  emailnotification:
+    build: ./event-notification
+    image: murthy/event-notification
+    depends_on:
+      - redis
+  eventproducer:
+    build: ./event-producer
+    image: murthy/event-producer
+    depends_on:
+      - redis
+  webnotification:
+    build: ./web
+    image: murthy/web
+    depends_on:
+      - redis
+      
